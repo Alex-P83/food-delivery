@@ -22,7 +22,18 @@ const styles = {
         p:'15px',
         overflowY:'auto',
         flexGrow:1,
-    }
+    },
+    card:{
+        width:'100%',
+        'img':{
+            width:'250px',
+            height:'250px',
+            objectFit:'cover',
+        }
+    }, 
+    cardContent:{
+        display:'flex',
+    }   
 }
 
 export default styles;

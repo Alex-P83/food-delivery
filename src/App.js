@@ -1,10 +1,12 @@
 // import logo from './logo.svg';
 import { Routes, Route } from "react-router-dom";
-import {Shops, ShoppingCart, History, Coupons} from './pages';
+import { Shops, ShoppingCart, History, Coupons } from './pages';
 import './App.css';
-import  {Layout}  from "./components/";
+import { Layout } from "./components/";
+
 
 function App() {
+
   return (
     <div className="App">
       {/* <Shops/> */}
@@ -15,7 +17,7 @@ function App() {
           <Route path="/history" element={<History />} />
           <Route path="/coupons" element={<Coupons />} />
         </Route>
-      </Routes>      
+      </Routes>
     </div>
   );
 }

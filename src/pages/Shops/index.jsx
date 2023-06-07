@@ -1,8 +1,23 @@
 import React from 'react';
-import { Box, List, ListItem, Button, Card, CardContent, Typography, CardActions, Grid, Tabs, Tab } from "@mui/material";
+import { Box, Button, Card, CardContent, Typography, CardActions, Grid, Tabs, Tab } from "@mui/material";
 import PropTypes from 'prop-types';
 import styles from "./Shops.module";
 import { BurgerKing, DodoPizza, DominosPizza, Kfc, MacDonalds } from '../../assets/icons';
+import {
+//   query,
+//   collection,
+//   orderBy,
+//   onSnapshot,
+  doc,
+  deleteDoc,
+  addDoc,
+  getDocs,
+  collection,
+} from 'firebase/firestore';
+import { db } from '../../firebase';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../store/actions';
+// import { addToCart } from '../../store/slices/shoppingCartSlice';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -17,7 +32,7 @@ function TabPanel(props) {
       >
         {value === index && (
           <Box>
-            <Typography>{children}</Typography>
+            <Box>{children}</Box>
           </Box>
         )}
       </div>
@@ -39,10 +54,28 @@ function TabPanel(props) {
 
 const Shops = () => {
     const [value, setValue] = React.useState(0);
+    const [shopListData, setShopListData] = React.useState([]);
+    const dispatch = useDispatch();
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
-    };   
+    };
+
+    React.useEffect(() => {
+        const getItems = async () => {
+        const data = await getDocs(collection(db, `brand-${value}`));
+        setShopListData(data.docs.map((el) => ({ ...el.data() })));
+            console.log('Shop Data:',data.docs);
+        }
+        getItems()    
+    }, [value]);
+
+
+  const handleAddToCart = (item) => {
+    // dispatch({type:'ADD_TO_CART', payload: item})
+    dispatch(addToCart(item))
+  }
+
     return ( 
         <Box sx={styles.shopWrapper}>
             <Box sx={styles.shopSidebar}>
@@ -62,33 +95,31 @@ const Shops = () => {
                 </Tabs>                         
             </Box>
             <Box sx={styles.shopContent}>
-                <TabPanel value={value} index={0}>
+                <TabPanel value={value} index={value}>
                     <Box sx={{ flexGrow: 1 }}>
                         <Grid container spacing={2}>
-                            <Grid item xs={4}>
-                                <Card sx={{ minWidth: 275 }}>
-                                    <CardContent>
-                                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        Word of the Day 1
-                                        </Typography>
-                                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        adjective
-                                        </Typography>
-                                        <Typography variant="body2">
-                                        well meaning and kindly.
-                                        <br />
-                                        {'"a benevolent smile"'}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button size="small" variant="contained">Learn More</Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
+                            {shopListData.map((item,i) => (
+                                <Grid item xs={4} key={i}>
+                                    <Card sx={styles.card}>
+                                        <CardContent>
+                                            <img src={item.img} alt="" />
+                                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                            {item.title}
+                                            </Typography>
+                                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                            {item.price}₴
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions sx={{justifyContent:'flex-end'}}>
+                                            <Button size="small" variant="contained" onClick={() => handleAddToCart(item)}>Add to cart</Button>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                            ))}
                         </Grid>
                     </Box>
-                </TabPanel>
-                <TabPanel value={value} index={1}>
+                </TabPanel> 
+                {/* <TabPanel value={value} index={1}>
                     <Box sx={{ flexGrow: 1 }}>
                         <Grid container spacing={2}>
                             <Grid item xs={4}>
@@ -191,7 +222,7 @@ const Shops = () => {
                             </Grid>
                         </Grid>
                     </Box>
-                </TabPanel>                 
+                </TabPanel>                  */}
             </Box>
         </Box> 
     );

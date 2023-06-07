@@ -1,7 +1,10 @@
-import { Box, TextField, Typography,Button,Grid,Card,CardContent,CardActions } from "@mui/material";
+import { Box, TextField, Typography,Button,Grid,Card,CardContent } from "@mui/material";
 import styles from './ShoppingCart.module';
-
+// import { useAppSelector } from "../../store/hooks";
+import { useSelector } from "react-redux";
+// 
 const ShoppingCart = () => {
+    const { cardList } = useSelector(state => state.shopsReducer)
     return ( 
         <Box sx={styles.wrapper}>
             <Box component="form" sx={styles.form}>
@@ -12,27 +15,25 @@ const ShoppingCart = () => {
             </Box>
             <Box sx={styles.cart}>
             <Grid container spacing={2}>
-                            <Grid item xs={4}>
-                                <Card sx={{ minWidth: 275 }}>
-                                    <CardContent>
-                                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        Word of the Day 1
-                                        </Typography>
-                                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        adjective
-                                        </Typography>
-                                        <Typography variant="body2">
-                                        well meaning and kindly.
-                                        <br />
-                                        {'"a benevolent smile"'}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button size="small" variant="contained">Learn More</Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        </Grid>                
+                {cardList.map((item,i) => 
+                    <Grid item xs={12} key={i}>
+                        <Card sx={styles.card}>
+                            <CardContent sx={styles.cardContent}>
+                                <img src={item.img} alt="" />
+                                <Box>
+                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                    {item.title}
+                                    </Typography>
+                                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                     Price:{item.price}
+                                    </Typography>   
+                                     <TextField variant="outlined" type="number" InputProps={{ inputProps: { min: 0 } }}/>
+                                </Box>
+                            </CardContent>
+                        </Card>
+                    </Grid>                    
+                )}
+            </Grid>                
             </Box>
             <Box>
                 <Typography>Total price:999</Typography>

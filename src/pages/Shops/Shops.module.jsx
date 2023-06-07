@@ -2,7 +2,7 @@ const styles = {
     shopWrapper:{
         display:'flex',
         gap:'15px',
-        height:'100%',
+        height:`calc(100% - 112px)`,
         pb:'15px',
     },
     shopSidebar:{
@@ -11,6 +11,7 @@ const styles = {
         borderRadius:'8px',
         p:'15px',
         overflowY:'auto',
+        flexShrink:0,
     },
     shopContent:{
         boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
@@ -35,6 +36,11 @@ const styles = {
             border:`1px solid #1976d2`,
             boxSizing:'border-box',
             borderRadius:'5px',        
+        }
+    },
+    card:{
+        'img':{
+            width:'100%',
         }
     }  
 }
