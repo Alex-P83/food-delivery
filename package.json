@@ -2,8 +2,8 @@
   "name": "food-delivery",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://alex-p83.github.io/food-delivery/",
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@firebase/auth": "^0.23.2",
@@ -28,8 +28,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy":"gh-pages -d build",
-    "predeploy":"npm run build"
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
   },
   "eslintConfig": {
     "extends": [
