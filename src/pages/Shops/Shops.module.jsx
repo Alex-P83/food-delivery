@@ -26,7 +26,6 @@ const styles = {
         justifyContent:'space-between',
        'svg':{
         width:'auto',
-        height:'30px',
        },      
     },
     indicator:{

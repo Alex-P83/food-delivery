@@ -1,4 +1,3 @@
-// import logo from './logo.svg';
 import { Routes, Route } from "react-router-dom";
 import { Shops, ShoppingCart, History, Coupons } from './pages';
 import './App.css';
@@ -9,7 +8,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* <Shops/> */}
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Shops />} />

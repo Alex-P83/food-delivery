@@ -2,22 +2,14 @@ import React from 'react';
 import { Box, Button, Card, CardContent, Typography, CardActions, Grid, Tabs, Tab } from "@mui/material";
 import PropTypes from 'prop-types';
 import styles from "./Shops.module";
-import { BurgerKing, DodoPizza, DominosPizza, Kfc, MacDonalds } from '../../assets/icons';
+import { BurgerKing, DunkinDonuts, DominosPizza, Kfc, MacDonalds } from '../../assets/icons';
 import {
-//   query,
-//   collection,
-//   orderBy,
-//   onSnapshot,
-  doc,
-  deleteDoc,
-  addDoc,
   getDocs,
   collection,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../store/actions';
-// import { addToCart } from '../../store/slices/shoppingCartSlice';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -63,9 +55,8 @@ const Shops = () => {
 
     React.useEffect(() => {
         const getItems = async () => {
-        const data = await getDocs(collection(db, `brand-${value}`));
-        setShopListData(data.docs.map((el) => ({ ...el.data() })));
-            console.log('Shop Data:',data.docs);
+            const data = await getDocs(collection(db, `brand-${value}`));
+            setShopListData(data.docs.map((el) => ({ ...el.data() })));
         }
         getItems()    
     }, [value]);
@@ -87,11 +78,11 @@ const Shops = () => {
                 variant="scrollable"
                 sx={styles.indicator}               
                 >
-                    <Tab label="McDonald's" icon={<MacDonalds/>}  sx={styles.tabItem} {...a11yProps(0)} iconPosition="end" disableRipple/>
-                    <Tab icon={<DominosPizza/>} label="Domino's Pizza" sx={styles.tabItem} {...a11yProps(1)} iconPosition="end" disableRipple/>
-                    <Tab icon={<Kfc/>} label="KFC (Kentucky Fried Chicken)" sx={styles.tabItem} {...a11yProps(2)} iconPosition="end" disableRipple/>
-                    <Tab icon={<DodoPizza/>} label="Dodo Pizza" sx={styles.tabItem} {...a11yProps(3)} iconPosition="end" disableRipple/>
-                    <Tab icon={<BurgerKing/>} label="Burger King (BK)" sx={styles.tabItem} {...a11yProps(4)} iconPosition="end" disableRipple/>
+                    <Tab label="McDonald's" icon={<MacDonalds height="30px" width="30px"/>}  sx={styles.tabItem} {...a11yProps(0)} iconPosition="end" disableRipple/>
+                    <Tab icon={<DominosPizza height="30px" width="30px"/>} label="Domino's Pizza" sx={styles.tabItem} {...a11yProps(1)} iconPosition="end" disableRipple/>
+                    <Tab icon={<Kfc height="30px" width="30px"/>} label="KFC (Kentucky Fried Chicken)" sx={styles.tabItem} {...a11yProps(2)} iconPosition="end" disableRipple/>
+                    <Tab icon={<DunkinDonuts height="40px" width="50px"/>} label="Dunkin Donuts" sx={styles.tabItem} {...a11yProps(3)} iconPosition="end" disableRipple/>
+                    <Tab icon={<BurgerKing height="30px" width="30px"/>} label="Burger King (BK)" sx={styles.tabItem} {...a11yProps(4)} iconPosition="end" disableRipple/>
                 </Tabs>                         
             </Box>
             <Box sx={styles.shopContent}>
@@ -119,110 +110,6 @@ const Shops = () => {
                         </Grid>
                     </Box>
                 </TabPanel> 
-                {/* <TabPanel value={value} index={1}>
-                    <Box sx={{ flexGrow: 1 }}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={4}>
-                                <Card sx={{ minWidth: 275 }}>
-                                    <CardContent>
-                                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        Word of the Day 2
-                                        </Typography>
-                                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        adjective
-                                        </Typography>
-                                        <Typography variant="body2">
-                                        well meaning and kindly.
-                                        <br />
-                                        {'"a benevolent smile"'}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button size="small" variant="contained">Learn More</Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <Box sx={{ flexGrow: 1 }}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={4}>
-                                <Card sx={{ minWidth: 275 }}>
-                                    <CardContent>
-                                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        Word of the Day 3
-                                        </Typography>
-                                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        adjective
-                                        </Typography>
-                                        <Typography variant="body2">
-                                        well meaning and kindly.
-                                        <br />
-                                        {'"a benevolent smile"'}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button size="small" variant="contained">Learn More</Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </TabPanel> 
-                <TabPanel value={value} index={3}>
-                    <Box sx={{ flexGrow: 1 }}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={4}>
-                                <Card sx={{ minWidth: 275 }}>
-                                    <CardContent>
-                                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        Word of the Day 2
-                                        </Typography>
-                                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        adjective
-                                        </Typography>
-                                        <Typography variant="body2">
-                                        well meaning and kindly.
-                                        <br />
-                                        {'"a benevolent smile"'}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button size="small" variant="contained">Learn More</Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </TabPanel>
-                <TabPanel value={value} index={4}>
-                    <Box sx={{ flexGrow: 1 }}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={4}>
-                                <Card sx={{ minWidth: 275 }}>
-                                    <CardContent>
-                                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        Word of the Day 3
-                                        </Typography>
-                                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        adjective
-                                        </Typography>
-                                        <Typography variant="body2">
-                                        well meaning and kindly.
-                                        <br />
-                                        {'"a benevolent smile"'}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button size="small" variant="contained">Learn More</Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </TabPanel>                  */}
             </Box>
         </Box> 
     );
