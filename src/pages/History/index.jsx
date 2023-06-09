@@ -55,7 +55,7 @@ const History = () => {
                                <Typography>TotalPrice: {item.totalPrice}</Typography>  
                             </Box>                
                         </Box>
-                    ))) : <Box>Empty history</Box>}                 
+                    ))) : <Box display={'flex'} justifyContent={'center'} alignItems={"center"}><Typography fontSize={'24px'} fontWeight={600}>Empty history</Typography></Box>}                 
             </Box>
         </Box>
      );

@@ -10,7 +10,18 @@ import {
 import { db } from '../../firebase';
 import { useDispatch } from 'react-redux';
 import { cleanCart } from '../../store/actions';
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
 
+const containerStyle = {
+  width: '100%',
+  height: '200px',
+  marginBottom:'30px'
+};
+
+const center = {
+  lat: -3.745,
+  lng: -38.523
+};
 
 const ShoppingCart = () => {
     const { cardList } = useSelector(state => state.shopsReducer);
@@ -67,32 +78,46 @@ const ShoppingCart = () => {
     return ( 
         <Box sx={styles.wrapper}>
             <Box component="form" sx={styles.form}>
+                <Box>
+                    <LoadScript
+                        googleMapsApiKey="AIzaSyDD48ki4YZ9iO1M4aT5CIPqEDlEGfLOGgY"
+                    >
+                        <GoogleMap
+                        mapContainerStyle={containerStyle}
+                        center={center}
+                        zoom={10}
+                        >
+                        { /* Child components, such as markers, info windows, etc. */ }
+                        <></>
+                        </GoogleMap>
+                    </LoadScript>
+                </Box>                
                 <TextField required id="outlined-basic" label="Name" variant="outlined" sx={{mb:'30px'}} onChange={(e) => handleChange(e, setInputName)} value={inputName}/>
                 <TextField required id="outlined-basic" label="Email" variant="outlined" sx={{mb:'30px'}} onChange={(e) => handleChange(e, setInputEmail)} value={inputEmail}/>
                 <TextField required id="outlined-basic" label="Phone" variant="outlined"  sx={{mb:'30px'}} onChange={(e) => handleChange(e, setInputPhone)} value={inputPhone}/>
                 <TextField required id="outlined-basic" label="Address" variant="outlined"  onChange={(e) => handleChange(e, setInputAddress)} value={inputAddress}/>
             </Box>
             <Box sx={styles.cart}>
-            <Grid container spacing={2}>
-                {cardList.map((item,i) => 
-                    <Grid item xs={12} key={i}>
-                        <Card sx={styles.card}>
-                            <CardContent sx={styles.cardContent}>
-                                <img src={item.img} alt="" />
-                                <Box>
-                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                    {item.title}
-                                    </Typography>
-                                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                     Price:{item.price}
-                                    </Typography>  
-                                    <TextField variant="outlined" type="number" InputProps={{ inputProps: { min: 0 } }} onChange={(e) => productCounter(e,i)} value={quantityArr[i]}/>
-                                </Box>
-                            </CardContent>
-                        </Card>
-                    </Grid>                    
-                )}
-            </Grid>                
+                <Grid container spacing={2}>
+                    {cardList.map((item,i) => 
+                        <Grid item xs={12} key={i}>
+                            <Card sx={styles.card}>
+                                <CardContent sx={styles.cardContent}>
+                                    <img src={item.img} alt="" />
+                                    <Box>
+                                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                        {item.title}
+                                        </Typography>
+                                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                        Price:{item.price}
+                                        </Typography>  
+                                        <TextField variant="outlined" type="number" InputProps={{ inputProps: { min: 0 } }} onChange={(e) => productCounter(e,i)} value={quantityArr[i]}/>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+                        </Grid>                    
+                    )}
+                </Grid>                
             </Box>
             <Box sx={styles.shoppingCartAction}>
                 <Typography mr={'10px'}>Total price:{totalPrice}</Typography>
