@@ -6,22 +6,22 @@ const Header = () => {
     return ( 
         <List sx={styles.nav}>
           <ListItem disablePadding sx={styles.navItem}>
-            <ListItemButton>
+            <ListItemButton sx={styles.linkItem}>
                 <Link to="/">Shops</Link>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={styles.navItem}>
-            <ListItemButton>
+            <ListItemButton sx={styles.linkItem}>
                 <Link to="/shopping-card">Shopping card</Link>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={styles.navItem}>
-            <ListItemButton>
+            <ListItemButton sx={styles.linkItem}>
                 <Link to="/history">History</Link>
             </ListItemButton>
           </ListItem> 
           <ListItem disablePadding sx={styles.navItem}>
-            <ListItemButton>
+            <ListItemButton sx={styles.linkItem}>
                 <Link to="/coupons">Coupons</Link>
             </ListItemButton>
           </ListItem>                    

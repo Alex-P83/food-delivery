@@ -18,6 +18,12 @@ const styles = {
         '&:not(:last-child)':{
             borderRight:'1px solid #eee',
         }
+    },
+    linkItem:{
+        p:0,
+        'a':{
+            p:'8px 16px'
+        }
     }
 }
 

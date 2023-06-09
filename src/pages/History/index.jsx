@@ -11,6 +11,8 @@ import { db } from '../../firebase';
 
 const History = () => {
     const [orderList, setOrderList] = useState([]);
+    const [searchEmailValue, setSearchEmailValue] = useState('');
+    const [searchPhoneValue, setSearchPhoneValue] = useState(''); 
 
     React.useEffect(() => {
         const getItems = async () => {
@@ -20,14 +22,15 @@ const History = () => {
         getItems()    
     }, []);    
     console.log(orderList);
+    const filterData = orderList.filter((item) => (item.email.toLowerCase().includes(searchEmailValue.toLowerCase()))).filter((item) => (item.phone.toLowerCase().includes(searchPhoneValue.toLowerCase())));
     return ( 
         <Box sx={styles.wrapper}>
             <Box component="form" sx={styles.form}>
-                <TextField id="outlined-basic" label="Email" variant="outlined" sx={styles.input}/>
-                <TextField id="outlined-basic" label="Phone" variant="outlined" sx={styles.input} />
+                <TextField id="outlined-basic" label="Email" variant="outlined" sx={styles.input} onChange={(e) => setSearchEmailValue(e.target.value)} value={searchEmailValue}/>
+                <TextField id="outlined-basic" label="Phone" variant="outlined" sx={styles.input} onChange={(e) => setSearchPhoneValue(e.target.value)} value={searchPhoneValue}/>
             </Box>
             <Box sx={styles.historyList}>
-                    {orderList.map((item,i) => (
+                    {filterData.length !== 0 ? (filterData.map((item,i) => (
                         <Box display={'flex'} key={i} sx={styles.historyItem} mb={3}>
                             <Grid container spacing={2}>
                                 {item.cardList.map((item,i)=>(
@@ -52,7 +55,7 @@ const History = () => {
                                <Typography>TotalPrice: {item.totalPrice}</Typography>  
                             </Box>                
                         </Box>
-                    ))}                 
+                    ))) : <Box>Empty history</Box>}                 
             </Box>
         </Box>
      );
