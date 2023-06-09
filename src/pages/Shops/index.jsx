@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Card, CardContent, Typography, CardActions, Grid, Tabs, Tab } from "@mui/material";
+import { Box, Button, Card, CardContent, Typography, CardActions, Grid, Tabs, Tab, CircularProgress } from "@mui/material";
 import PropTypes from 'prop-types';
 import styles from "./Shops.module";
 import { BurgerKing, DunkinDonuts, DominosPizza, Kfc, MacDonalds } from '../../assets/icons';
@@ -47,6 +47,7 @@ function TabPanel(props) {
 const Shops = () => {
     const [value, setValue] = React.useState(0);
     const [shopListData, setShopListData] = React.useState([]);
+    const [isLoading, setIsLoading] = React.useState(false);
     const dispatch = useDispatch();
 
     const handleChange = (event, newValue) => {
@@ -54,11 +55,14 @@ const Shops = () => {
     };
 
     React.useEffect(() => {
+        setIsLoading(true)
         const getItems = async () => {
-            const data = await getDocs(collection(db, `brand-${value}`));
+            const data = await getDocs(collection(db, `brand-${value}`));            
             setShopListData(data.docs.map((el) => ({ ...el.data() })));
+            setIsLoading(false)
         }
-        getItems()    
+        getItems()
+            
     }, [value]);
 
 
@@ -86,30 +90,34 @@ const Shops = () => {
                 </Tabs>                         
             </Box>
             <Box sx={styles.shopContent}>
+              
+                
                 <TabPanel value={value} index={value}>
-                    <Box sx={{ flexGrow: 1 }}>
-                        <Grid container spacing={2}>
-                            {shopListData.map((item,i) => (
-                                <Grid item xs={4} key={i}>
-                                    <Card sx={styles.card}>
-                                        <CardContent>
-                                            <img src={item.img} alt="" />
-                                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                            {item.title}
-                                            </Typography>
-                                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                            {item.price}₴
-                                            </Typography>
-                                        </CardContent>
-                                        <CardActions sx={{justifyContent:'flex-end'}}>
-                                            <Button size="small" variant="contained" onClick={() => handleAddToCart(item)}>Add to cart</Button>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Box>
-                </TabPanel> 
+                    {!isLoading ? (
+                      <Box sx={{ flexGrow: 1 }}>
+                          <Grid container spacing={2}>
+                              {shopListData.map((item,i) => (
+                                  <Grid item xs={3} key={i}>
+                                      <Card sx={styles.card}>
+                                          <CardContent>
+                                              <img src={item.img} alt="" />
+                                              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                              {item.title}
+                                              </Typography>
+                                              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                              {item.price}₴
+                                              </Typography>
+                                          </CardContent>
+                                          <CardActions sx={{justifyContent:'flex-end'}}>
+                                              <Button size="small" variant="contained" onClick={() => handleAddToCart(item)}>Add to cart</Button>
+                                          </CardActions>
+                                      </Card>
+                                  </Grid>
+                              ))}
+                          </Grid>
+                      </Box>                      
+                    ) : <CircularProgress sx={styles.progress}></CircularProgress>}
+                </TabPanel>
             </Box>
         </Box> 
     );
